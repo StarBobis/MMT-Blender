@@ -14,7 +14,7 @@ bl_info = {
     "name": "MMT",
     "description": "MMT-Community's Blender Plugin",
     "blender": (3, 6, 0),
-    "version": (1, 0, 5, 7),
+    "version": (1, 0, 5, 8),
     "location": "View3D",
     "warning": "Only support Blender 3.6 LTS",
     "category": "Generic"

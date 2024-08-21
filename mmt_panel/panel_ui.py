@@ -7,8 +7,6 @@ from .panel_functions import *
 from ..migoto.migoto_export import *
 from ..migoto.migoto_import import *
 
-mmt_version = "V1.0.5.7"
-
 
 # -----------------------------------下面这两个不属于右键菜单，属于MMT面板，所以放到最下面---------------------------------------
 class MMTImportAllTextModel(bpy.types.Operator):
@@ -203,7 +201,7 @@ class MMTPathOperator(bpy.types.Operator):
 
 # MMT的侧边栏
 class MMTPanel(bpy.types.Panel):
-    bl_label = "MMT插件 " + mmt_version
+    bl_label = "MMT插件 " 
     bl_idname = "VIEW3D_PT_MMT_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'

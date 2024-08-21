@@ -135,6 +135,7 @@ def fill_vertex_group_gaps(self, context):
 
 
 def add_bone_from_vertex_group(self, context):
+    # TODO 这里运行后会报错，暂时用不到，以后有了更好的算法再修复。
     # 这玩意实际上没啥用，但是好像又有点用，反正鸡肋，加上吧。
     # 获取当前选中的物体
     selected_object = bpy.context.object
