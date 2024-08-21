@@ -5,8 +5,8 @@ import bpy.props
 # we use .utils instead of utils because blender can't locate where utils is
 # Blender can only locate panel.py only when you add a . before it.
 
-from .mmt_panel.panel import *
-from .model_menu.mesh_operator import *
+from .mmt_panel.panel_ui import *
+from .mmt_rightclick_menu.mesh_operator import *
 from .animation.animation_operator import *
 
 '''

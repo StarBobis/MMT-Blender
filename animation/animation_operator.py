@@ -2,7 +2,7 @@
 import struct
 import bpy.props
 
-from MMT.mmt_panel.panel import *
+from ..mmt_panel.panel_ui import *
 from datetime import datetime
 
 
