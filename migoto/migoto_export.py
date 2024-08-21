@@ -263,7 +263,7 @@ class Export3DMigoto(bpy.types.Operator, ExportHelper):
     filter_glob: StringProperty(
         default='*.vb',
         options={'HIDDEN'},
-    )
+    ) # type: ignore
 
     # 默认选择文件路径
     filepath: bpy.props.StringProperty(
@@ -271,7 +271,7 @@ class Export3DMigoto(bpy.types.Operator, ExportHelper):
         description="Filepath used for exporting",
         subtype='FILE_PATH',
         default="",
-    )
+    ) # type: ignore
 
     # where you do export logic
     def execute(self, context):

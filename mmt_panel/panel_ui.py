@@ -177,13 +177,18 @@ class MMTPathProperties(bpy.types.PropertyGroup):
         description="Select a folder path of MMT",
         default=load_path(),
         subtype='DIR_PATH'
-    ) 
+    ) # type: ignore
 
     export_same_number: bpy.props.BoolProperty(
         name="My Checkbox",
         description="This is a checkbox in the sidebar",
         default=False
-    )
+    ) # type: ignore
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.subtype = 'DIR_PATH'
+        self.path = load_path()
 
 
 class MMTPathOperator(bpy.types.Operator):

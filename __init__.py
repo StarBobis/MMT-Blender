@@ -7,11 +7,8 @@ import bpy.props
 
 from .mmt_panel.panel_ui import *
 from .mmt_rightclick_menu.mesh_operator import *
-from .animation.animation_operator import *
+from .mmt_animation.animation_operator import *
 
-'''
-
-'''
 
 bl_info = {
     "name": "MMT",

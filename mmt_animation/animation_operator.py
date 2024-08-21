@@ -14,7 +14,8 @@ class MMDModIniGenerator(bpy.types.Operator):
     output_folder: bpy.props.StringProperty(
         name="Output Folder",
         description="The Output Folder of this game"
-    )
+    ) # type: ignore
+    
     # 完整buf文件导出路径  operator_export_mmd_bone_matrix.output_bone_matrix_filename = output_folder_path + "BoneMatrix.buf"
     output_bone_matrix_file_path = None
     # 完整ini文件导出路径
