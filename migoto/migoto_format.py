@@ -5,7 +5,6 @@ import textwrap
 import collections
 
 
-# TODO why the parameter is an object type instead of bpy.types.Operator or specific type??
 class InputLayoutElement(object):
     SemanticName = ""
     SemanticIndex = ""

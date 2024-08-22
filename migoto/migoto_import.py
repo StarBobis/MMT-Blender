@@ -6,7 +6,7 @@ import os.path
 import itertools
 import bpy
 
-from bpy_extras.io_utils import unpack_list, ImportHelper, ExportHelper, axis_conversion
+from bpy_extras.io_utils import unpack_list, ImportHelper, axis_conversion
 from bpy.props import BoolProperty, StringProperty, CollectionProperty
 from bpy_extras.io_utils import orientation_helper
 
@@ -158,7 +158,6 @@ def import_uv_layers(mesh, obj, texcoords, flip_texcoord_v):
 
             # Can't find an easy way to flip the display of V in Blender, so
             # add an option to flip it on import & export:
-            # TODO why use lambda? it's hard to understand.
             if flip_texcoord_v:
                 flip_uv = lambda uv: (uv[0], 1.0 - uv[1])
                 # Record that V was flipped, so we know to undo it when exporting:
@@ -173,44 +172,40 @@ def import_uv_layers(mesh, obj, texcoords, flip_texcoord_v):
                 blender_uvs.data[l.index].uv = flip_uv(uvs[l.vertex_index])
 
 
-# TODO VertexLayer的设计应该被去除
-'''
-Nico:
-在游戏Mod制作中，所有提取的属性和生成的属性都是应该提前规划好的，
-而不是在这里做额外的无用步骤来传递一些垃圾属性。
-'''
-
-
+# VertexLayer的设计应该被去除
+# Nico:
+# 在游戏Mod制作中，所有提取的属性和生成的属性都是应该提前规划好的，
+# 而不是在这里做额外的无用步骤来传递一些垃圾属性。
 # This loads unknown data from the vertex buffers as vertex layers
-def import_vertex_layers(mesh, obj, vertex_layers):
-    for (element_name, data) in sorted(vertex_layers.items()):
-        dim = len(data[0])
-        cmap = {0: 'x', 1: 'y', 2: 'z', 3: 'w'}
-        for component in range(dim):
+# def import_vertex_layers(mesh, obj, vertex_layers):
+#     for (element_name, data) in sorted(vertex_layers.items()):
+#         dim = len(data[0])
+#         cmap = {0: 'x', 1: 'y', 2: 'z', 3: 'w'}
+#         for component in range(dim):
 
-            if dim != 1 or element_name.find('.') == -1:
-                layer_name = '%s.%s' % (element_name, cmap[component])
-            else:
-                layer_name = element_name
+#             if dim != 1 or element_name.find('.') == -1:
+#                 layer_name = '%s.%s' % (element_name, cmap[component])
+#             else:
+#                 layer_name = element_name
 
-            if type(data[0][0]) == int:
-                layer = mesh.vertex_layers.new(name=layer_name, type='INT')
+#             if type(data[0][0]) == int:
+#                 layer = mesh.vertex_layers.new(name=layer_name, type='INT')
 
-                for v in mesh.vertices:
-                    val = data[v.index][component]
-                    # Blender integer layers are 32bit signed and will throw an
-                    # exception if we are assigning an unsigned value that
-                    # can't fit in that range. Reinterpret as signed if necessary:
-                    if val < 0x80000000:
-                        layer.data[v.index].value = val
-                    else:
-                        layer.data[v.index].value = struct.unpack('i', struct.pack('I', val))[0]
-            elif type(data[0][0]) == float:
-                layer = mesh.vertex_layers.new(name=layer_name, type='FLOAT')
-                for v in mesh.vertices:
-                    layer.data[v.index].value = data[v.index][component]
-            else:
-                raise Fatal('BUG: Bad layer type %s' % type(data[0][0]))
+#                 for v in mesh.vertices:
+#                     val = data[v.index][component]
+#                     # Blender integer layers are 32bit signed and will throw an
+#                     # exception if we are assigning an unsigned value that
+#                     # can't fit in that range. Reinterpret as signed if necessary:
+#                     if val < 0x80000000:
+#                         layer.data[v.index].value = val
+#                     else:
+#                         layer.data[v.index].value = struct.unpack('i', struct.pack('I', val))[0]
+#             elif type(data[0][0]) == float:
+#                 layer = mesh.vertex_layers.new(name=layer_name, type='FLOAT')
+#                 for v in mesh.vertices:
+#                     layer.data[v.index].value = data[v.index][component]
+#             else:
+#                 raise Fatal('BUG: Bad layer type %s' % type(data[0][0]))
 
 
 def import_faces_from_ib(mesh, ib):
@@ -422,8 +417,6 @@ def import_3dmigoto_vb_ib(operator, context, paths, flip_texcoord_v=True, axis_f
 
     import_uv_layers(mesh, obj, texcoords, flip_texcoord_v)
 
-    import_vertex_layers(mesh, obj, vertex_layers)
-
     import_vertex_groups(mesh, obj, blend_indices, blend_weights)
 
     # Validate closes the loops so they don't disappear after edit mode and probably other important things:
@@ -484,29 +477,29 @@ class Import3DMigotoFrameAnalysis(bpy.types.Operator, ImportHelper, IOOBJOrienta
         name="Directory",
         subtype='DIR_PATH',
         default= "",
-    )
+    ) # type: ignore
 
     filter_glob: StringProperty(
         default='*.txt',
         options={'HIDDEN'},
-    )
+    ) # type: ignore
 
     files: CollectionProperty(
         name="File Path",
         type=bpy.types.OperatorFileListElement,
-    )
+    ) # type: ignore
 
     flip_texcoord_v: BoolProperty(
         name="Flip TEXCOORD V",
         description="Flip TEXCOORD V asix during importing",
         default=True,
-    )
+    ) # type: ignore
 
     load_related: BoolProperty(
         name="Auto-load related meshes",
         description="Automatically load related meshes found in the frame analysis dump",
         default=True,
-    )
+    ) # type: ignore
 
     def get_vb_ib_paths(self):
         buffer_pattern = re.compile(r'''-(?:ib|vb[0-9]+)(?P<hash>=[0-9a-f]+)?(?=[^0-9a-f=])''')
@@ -605,18 +598,18 @@ class Import3DMigotoRaw(bpy.types.Operator, ImportHelper, IOOBJOrientationHelper
     filter_glob: StringProperty(
         default='*.vb;*.ib',
         options={'HIDDEN'},
-    )
+    ) # type: ignore
 
     files: CollectionProperty(
         name="File Path",
         type=bpy.types.OperatorFileListElement,
-    )
+    ) # type: ignore
 
     flip_texcoord_v: BoolProperty(
         name="Flip TEXCOORD V",
         description="Flip TEXCOORD V asix during importing",
         default=True,
-    )
+    ) # type: ignore
 
     def get_vb_ib_paths(self, filename):
         vb_bin_path = os.path.splitext(filename)[0] + '.vb'
@@ -683,7 +676,7 @@ class Import3DMigotoReferenceInputFormat(bpy.types.Operator, ImportHelper):
     filter_glob: StringProperty(
         default='*.txt;*.fmt',
         options={'HIDDEN'},
-    )
+    ) # type: ignore
 
     def get_vb_ib_paths(self):
         if os.path.splitext(self.filepath)[1].lower() == '.fmt':

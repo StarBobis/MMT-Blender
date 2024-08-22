@@ -300,3 +300,5 @@ class MMTPanel(bpy.types.Panel):
         #
         # # 一键快速导入所有位于OutputFolder下的.txt模型
         # layout.label(text="ShapeKey Mod")
+
+        
