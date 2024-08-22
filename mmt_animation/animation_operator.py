@@ -59,6 +59,7 @@ class MMDModIniGenerator(bpy.types.Operator):
         play_speed = context.scene.mmt_mmd_animation_mod_play_speed
 
         # 写出骨骼变换矩阵
+        # Bone matrix's core logic learned from AGMG discord,credit to @SilentNightSound.
         result = bytearray()
         for z in range(frame_start, frame_end):
             context.scene.frame_set(z)
