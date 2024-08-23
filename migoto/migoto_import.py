@@ -417,11 +417,7 @@ def import_3dmigoto_vb_ib(operator, context, paths, flip_texcoord_v=True, axis_f
 
     import_uv_layers(mesh, obj, texcoords, flip_texcoord_v)
 
-<<<<<<< HEAD
     import_vertex_groups(mesh, obj, blend_indices, blend_weights)
-=======
-    # import_vertex_groups(mesh, obj, blend_indices, blend_weights)
->>>>>>> 5f2c78647268ad15116117f450c76086c9fcf145
 
     # Validate closes the loops so they don't disappear after edit mode and probably other important things:
     mesh.validate(verbose=False, clean_customdata=False)  # *Very* important to not remove lnors here!
@@ -445,6 +441,7 @@ def import_3dmigoto_vb_ib(operator, context, paths, flip_texcoord_v=True, axis_f
     # 创建 BMesh 副本
     bm = bmesh.new()
     bm.from_mesh(mesh)
+    
 
     # 删除松散点 delete loose before get this
     # bm.verts.ensure_lookup_table()
